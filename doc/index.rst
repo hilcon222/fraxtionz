@@ -27,3 +27,10 @@ True
 >>> Fraction(3, 3).floatdump()
 1.0
 
+Documentation of the Fraxtionz module
+=====================================
+
+.. automodule:: fraxtionz
+   :members:
+   :undoc-members:
+   :show-inheritance:

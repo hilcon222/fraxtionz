@@ -11,16 +11,17 @@ class Fraction(object):
 The main fraction class.
     """
     def __init__(self, n, d=1):
-        """Creates a Fraction object.
-        Arguments: n : numerator
-                   d : denominator > 0"""
         assert isinstance(n, int)
         assert isinstance(d, int)
         if d == 0:
             raise ZeroDivisionError
         div = math.gcd(n, d)
-        self.n = n // div
-        self.d = d // div
+        if div != 1:
+            self.n = n // div
+            self.d = d // div
+        else:
+            self.n = n
+            self.d = d
 
     def __str__(self):
         return "{}/{}".format(self.n, self.d)
@@ -30,11 +31,27 @@ The main fraction class.
 
     @staticmethod
     def lcm(n, m):
-        """ Calculates the lesser common multiple """
+        """Calculates the lesser common multiple
+
+:param n: first number
+:type n: int
+
+:param m: second number
+:type m: int
+:return: the lesser common multiple
+:rtype: int
+"""
         return (n * m) / math.gcd(n, m)
 
     def lcden(self, other):
-        """ Calculates the lesser common denominator """
+        """Calculates the lesser common denominator between two fractions
+
+:param other: second fraction
+:type other: Fraction
+
+:return: the lesser common denominator between self and other
+:rtype: int
+"""
         return Fraction.lcm(self.d, other.d)
 
     def __add__(self, other):
@@ -109,3 +126,20 @@ The main fraction class.
     def floatdump(self):
         """ Returns the conventional floating-point value from the fraction """
         return float(self.n / self.d)
+
+    @staticmethod
+    def floatofract(num, periodic=False):
+        """Transforms a floating-point number into a fraction.
+
+:param num: the floating point number
+:type other: float
+
+:param periodic: is the number to be treated as periodic?
+:type periodic: bool
+:return: the fraction
+:rtype: Fraction
+
+.. Important::
+   Periodic numbers require the periodic part to repeat itself exactly 2 times.
+"""
+        return Fraction(0)  # to be continued
