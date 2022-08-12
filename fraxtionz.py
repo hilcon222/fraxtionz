@@ -128,18 +128,15 @@ The main fraction class.
         return float(self.n / self.d)
 
     @staticmethod
-    def floatofract(num, periodic=False):
+    def floatofract(num):
         """Transforms a floating-point number into a fraction.
 
 :param num: the floating point number
 :type other: float
 
-:param periodic: is the number to be treated as periodic?
-:type periodic: bool
 :return: the fraction
 :rtype: Fraction
-
-.. Important::
-   Periodic numbers require the periodic part to repeat itself exactly 2 times.
 """
-        return Fraction(0)  # to be continued
+        while num != float(int(num)):
+            num = num * 10
+        return Fraction(int(num), int("1" + "0"*len(str(int(num)))))

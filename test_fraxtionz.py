@@ -72,3 +72,7 @@ def test_sub():
 
 def test_floatdump():
     assert round(Fraction(1, 3).floatdump(), 1) == 0.3
+
+
+def test_floatofract():
+    assert Fraction.floatofract(0.3) == Fraction(3, 10)
