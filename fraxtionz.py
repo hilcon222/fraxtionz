@@ -123,6 +123,9 @@ The main fraction class.
             other = Fraction(other)
         return other + self.__neg__()
 
+    def __pow__(self, exp):
+        return Fraction(self.n ** exp, self.d ** exp)
+
     def floatdump(self):
         """ Returns the conventional floating-point value from the fraction """
         return float(self.n / self.d)

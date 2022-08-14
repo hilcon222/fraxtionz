@@ -76,3 +76,7 @@ def test_floatdump():
 
 def test_floatofract():
     assert Fraction.floatofract(0.3) == Fraction(3, 10)
+
+
+def test_pow():
+    assert Fraction(3, 4) ** 3 == Fraction(27, 64)
