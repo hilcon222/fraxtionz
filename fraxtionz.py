@@ -67,9 +67,15 @@ The main fraction class.
         return self.__add__(other)
 
     def __eq__(self, other):
+        assert isinstance(other, (Fraction, int))
+        if isinstance(other, int):
+            other = Fraction(other)
         return self.n == other.n and self.d == other.d
 
     def __lt__(self, other):
+        assert isinstance(other, (Fraction, int))
+        if isinstance(other, int):
+            other = Fraction(other)
         return self.n * other.d < self.d * other.n
 
     def __le__(self, other):
@@ -85,6 +91,9 @@ The main fraction class.
         return not self < other
 
     def __mul__(self, other):
+        assert isinstance(other, (Fraction, int))
+        if isinstance(other, int):
+            other = Fraction(other)
         return Fraction(self.n * other.n, self.d * other.d)
 
     def __rmul__(self, other):
@@ -94,9 +103,15 @@ The main fraction class.
         return Fraction(self.d, self.n)
 
     def __truediv__(self, other):
+        assert isinstance(other, (Fraction, int))
+        if isinstance(other, int):
+            other = Fraction(other)
         return self.__mul__(other.__invert__())
 
     def __floordiv__(self, other):
+        assert isinstance(other, (Fraction, int))
+        if isinstance(other, int):
+            other = Fraction(other)
         result = self / other
         return result.n // result.d
 
@@ -124,6 +139,7 @@ The main fraction class.
         return other + self.__neg__()
 
     def __pow__(self, exp):
+        assert isinstance(exp, int)
         return Fraction(self.n ** exp, self.d ** exp)
 
     def floatdump(self):
@@ -140,6 +156,7 @@ The main fraction class.
 :return: the fraction
 :rtype: Fraction
 """
+        assert isinstance(num, (float, int))
         while num != float(int(num)):
             num = num * 10
         return Fraction(int(num), int("1" + "0"*len(str(int(num)))))
