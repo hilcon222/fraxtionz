@@ -1,4 +1,4 @@
-from fraxtionz import Fraction
+from fraxtionz import Rational
 
 
 def test_true():
@@ -6,14 +6,14 @@ def test_true():
 
 
 def test_init():
-    f = Fraction(1, 2)
+    f = Rational(1, 2)
     assert f.n == 1
     assert f.d == 2
 
 
 def test_zerodivisionerror():
     try:
-        f = Fraction(1, 0) # noqa
+        f = Rational(1, 0) # noqa
     except ZeroDivisionError:
         pass
     else:
@@ -21,62 +21,63 @@ def test_zerodivisionerror():
 
 
 def test_reduction():
-    f = Fraction(2, 6)
+    f = Rational(2, 6)
     assert f.n == 1
     assert f.d == 3
 
 
 def test_lcm():
-    assert Fraction.lcm(10, 15) == 30
+    assert Rational.lcm(10, 15) == 30
 
 
 def test_lcden():
-    assert Fraction(1, 10).lcden(Fraction(1, 15)) == 30
+    assert Rational(1, 10).lcden(Rational(1, 15)) == 30
 
 
 def test_add():
-    assert Fraction(1, 2) + Fraction(2, 4) == Fraction(4, 4)
-    assert Fraction(4, 4) + 1 == Fraction(2, 1)
+    assert Rational(1, 2) + Rational(2, 4) == Rational(4, 4)
+    assert Rational(4, 4) + 1 == Rational(2, 1)
 
 
 def test_lt():
-    assert Fraction(1, 3) < Fraction(1, 2)
+    assert Rational(1, 3) < Rational(1, 2)
 
 
 def test_eq():
-    assert Fraction(1, 1) == Fraction(1, 1)
+    assert Rational(1, 1) == Rational(1, 1)
 
 
 def test_gt():
-    assert Fraction(8, 4) > Fraction(4, 8)
+    assert Rational(8, 4) > Rational(4, 8)
 
 
 def test_invert():
-    assert Fraction(3, 4).__invert__() == Fraction(4, 3)
+    assert Rational(3, 4).__invert__() == Rational(4, 3)
 
 
 def test_truediv():
-    assert Fraction(4, 6) / Fraction(4, 6) == Fraction(1, 1)
-    assert Fraction(4, 1) / Fraction(2, 1) == Fraction(2, 1)
-    assert 4 / Fraction(2) == Fraction(2)
+    assert Rational(4, 6) / Rational(4, 6) == Rational(1, 1)
+    assert Rational(4, 1) / Rational(2, 1) == Rational(2, 1)
+    assert 4 / Rational(2) == Rational(2)
 
 
 def test_floordiv():
-    assert Fraction(2) // Fraction(2) == 1
-    assert 4 // Fraction(4, 2) == 2
+    assert Rational(2) // Rational(2) == 1
+    assert 4 // Rational(4, 2) == 2
 
 
 def test_sub():
-    assert Fraction(4, 2) - Fraction(1, 1) == Fraction(1, 1)
+    assert Rational(4, 2) - Rational(1, 1) == Rational(1, 1)
 
 
 def test_floatdump():
-    assert round(Fraction(1, 3).floatdump(), 1) == 0.3
+    assert round(Rational(1, 3).floatdump(), 1) == 0.3
 
 
 def test_floatofract():
-    assert Fraction.floatofract(0.3) == Fraction(3, 10)
+    assert Rational.floatofract(0.3) == Rational(3, 10)
 
 
 def test_pow():
-    assert Fraction(3, 4) ** 3 == Fraction(27, 64)
+    assert Rational(3, 4) ** 3 == Rational(27, 64)
+    assert Rational(2, 3) ** -3 == Rational(27, 8)

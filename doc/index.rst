@@ -20,11 +20,11 @@ That isn't correct. The correct result would be 0.3 periodic, not 0.333333333333
 Well, Fraxtionz permits you to avoid this problem. Floating-point numbers are in most cases unexact. However, the numerator and a denominator of a fractions are natural numbers, if the fractions are rational.
 Therefore, because an int can be much more precise, the fraction will be exact!!!
 
->>> from fraxtionz import Fraction
->>> f = Fraction(1, 3)
->>> f + f + f == Fraction(1)
+>>> from fraxtionz import Rational
+>>> f = Rational(1, 3)
+>>> f + f + f == Rational(1)
 True
->>> Fraction(3, 3).floatdump()
+>>> Rational(3, 3).floatdump()
 1.0
 
 Documentation of the Fraxtionz module
