@@ -4,11 +4,12 @@ A module to manage fractions with precision.
 """
 
 import math
+import warnings
 
 
-class Fraction(object):
+class Rational(object):
     """
-The main fraction class.
+The main Rational fraction class.
     """
     def __init__(self, n, d=1):
         assert isinstance(n, int)
@@ -47,35 +48,30 @@ The main fraction class.
         """Calculates the lesser common denominator between two fractions
 
 :param other: second fraction
-:type other: Fraction
+:type other: Rational
 
 :return: the lesser common denominator between self and other
 :rtype: int
 """
-        return Fraction.lcm(self.d, other.d)
+        return Rational.lcm(self.d, other.d)
 
     def __add__(self, other):
-        if isinstance(other, Fraction):
-            return Fraction(self.n * other.d + other.n * self.d,
-                            self.d * other.d)
-        elif isinstance(other, int):
-            other = Fraction(other)
-            return Fraction(self.n * other.d + other.n * self.d,
-                            self.d * other.d)
+        if isinstance(other, int):
+            other = Rational(other)
+        return Rational(self.n * other.d + other.n * self.d,
+                        self.d * other.d)
 
     def __radd__(self, other):
         return self.__add__(other)
 
     def __eq__(self, other):
-        assert isinstance(other, (Fraction, int))
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         return self.n == other.n and self.d == other.d
 
     def __lt__(self, other):
-        assert isinstance(other, (Fraction, int))
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         return self.n * other.d < self.d * other.n
 
     def __le__(self, other):
@@ -91,56 +87,55 @@ The main fraction class.
         return not self < other
 
     def __mul__(self, other):
-        assert isinstance(other, (Fraction, int))
         if isinstance(other, int):
-            other = Fraction(other)
-        return Fraction(self.n * other.n, self.d * other.d)
+            other = Rational(other)
+        return Rational(self.n * other.n, self.d * other.d)
 
     def __rmul__(self, other):
         return self.__mul__(other)
 
     def __invert__(self):
-        return Fraction(self.d, self.n)
+        return Rational(self.d, self.n)
 
     def __truediv__(self, other):
-        assert isinstance(other, (Fraction, int))
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         return self.__mul__(other.__invert__())
 
     def __floordiv__(self, other):
-        assert isinstance(other, (Fraction, int))
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         result = self / other
         return result.n // result.d
 
     def __rtruediv__(self, other):
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         return other.__truediv__(self)
 
     def __rfloordiv__(self, other):
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         return other.__floordiv__(self)
 
     def __neg__(self):
-        return Fraction(0-self.n, self.d)
+        return Rational(0-self.n, self.d)
 
     def __sub__(self, other):
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         return self + other.__neg__()
 
     def __rsub__(self, other):
         if isinstance(other, int):
-            other = Fraction(other)
+            other = Rational(other)
         return other + self.__neg__()
 
     def __pow__(self, exp):
         assert isinstance(exp, int)
-        return Fraction(self.n ** exp, self.d ** exp)
+        if exp < 0:
+            return Rational(self.d ** -exp, self.n ** -exp)
+        return Rational(self.n ** exp, self.d ** exp)
 
     def floatdump(self):
         """ Returns the conventional floating-point value from the fraction """
@@ -154,9 +149,21 @@ The main fraction class.
 :type other: float
 
 :return: the fraction
-:rtype: Fraction
+:rtype: Rational
 """
         assert isinstance(num, (float, int))
         while num != float(int(num)):
             num = num * 10
-        return Fraction(int(num), int("1" + "0"*len(str(int(num)))))
+        return Rational(int(num), int("1" + "0"*len(str(int(num)))))
+
+
+class Fraction(Rational):
+    """
+The main Rational fraction class.
+
+.. deprecated:: 2.4.1
+   Use :class:Rational instead.
+"""
+    def __init__(self, n, d=1):
+        Rational.__init__(self, n, d)
+        warnings.warn("Fraction is deprecated, please use Rational", DeprecationWarning) # noqa
